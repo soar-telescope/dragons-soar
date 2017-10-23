@@ -9,8 +9,7 @@ class AstroDataSOAR(AstroDataFits):
 
     @staticmethod
     def _matches_data(data_provider):
-        obs = data_provider.header[0].get('OBSERVAT', '').upper()
-        return obs
+        return data_provider.phu.get('OBSERVAT', '').upper() == 'SOAR'
 
     @astro_data_tag
     def _type_observatory(self):
