@@ -4,6 +4,9 @@ from astrodata import astro_data_tag, TagSet, astro_data_descriptor, returns_lis
 from ..soar import AstroDataSOAR
 
 class AstroDataSAMI(AstroDataSOAR):
+    __keyword_dict = dict(data_section = 'DATASEC',
+                          gain = 'GAIN',
+                          )
 
     @staticmethod
     def _matches_data(data_provider):
@@ -54,3 +57,67 @@ class AstroDataSAMI(AstroDataSOAR):
         if self.phu.get('OBSTYPE') == 'ZERO':
             return TagSet(['BIAS', 'CAL'], blocks=['IMAGE', 'FABRY'])
 
+    @astro_data_descriptor
+    def data_section(self, pretty=False):
+        """
+        Returns the rectangular section that includes the pixels that would be
+        exposed to light.  If pretty is False, a tuple of 0-based coordinates
+        is returned with format (x1, x2, y1, y2).  If pretty is True, a keyword
+        value is returned without parsing as a string.  In this format, the
+        coordinates are generally 1-based.
+
+        One tuple or string is return per extension/array, in a list. If the
+        method is called on a single slice, the section is returned as a tuple
+        or a string.
+
+        Parameters
+        ----------
+        pretty : bool
+         If True, return the formatted string found in the header.
+
+        Returns
+        -------
+        tuple of integers or list of tuples
+            Location of the pixels exposed to light using Python slice values.
+
+        string or list of strings
+            Location of the pixels exposed to light using an IRAF section
+            format (1-based).
+        """
+        return self._parse_section(self._keyword_for('data_section'), pretty)
+
+
+    @astro_data_descriptor
+    def filter_name(self):
+        """
+        Returns the name of the filter used according to the summary FILTERS keyword.
+
+        Returns
+        -------
+        str
+            The name of the filter.
+
+        """
+
+        return self.phu.get('FILTERS')
+
+    @astro_data_descriptor
+    def gain(self):
+        """
+        Gain of the amplifier
+
+        Returns
+        -------
+        float
+            The gain for each amplifier
+        """
+        ### Bruno:  GAIN is set to "unavail" in the headers.  Do you have
+        ###         the gain for each amp in some lookup table?
+        gain = []
+        for hdr in self.header[1:]:
+            val = hdr[self.__keyword_dict['gain']]
+            if val != 'unavail':
+                gain.append(val)
+            else:
+                gain.append(None)
+        return gain
