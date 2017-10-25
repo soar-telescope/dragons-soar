@@ -9,7 +9,11 @@ class AstroDataSOAR(AstroDataFits):
 
     @staticmethod
     def _matches_data(data_provider):
-        return data_provider.phu.get('OBSERVAT', '').upper() == 'SOAR'
+        if data_provider.phu.get('OBSERVAT', '').upper() == 'SOAR' or \
+        data_provider.phu.get('TELESCOP', '') == 'SOAR 4.1m':
+            return True
+        else:
+            return False
 
     @astro_data_tag
     def _type_observatory(self):
