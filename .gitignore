@@ -1,5 +1,6 @@
 # Ignore PyCharm Files
 .idea/
 
-# Ignore Python Compiles Files
-*.pyc
+Would skip repository src/dragons
+src/pip-delete-this-directory.txt
+
