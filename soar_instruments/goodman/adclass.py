@@ -51,5 +51,7 @@ class AstroDataGOODMAN(AstroDataSOAR):
 
     @astro_data_descriptor
     def instrument(self, generic=False):
-        self.phu.get('INSTRUME', '') == 'Goodman Spectro'
-        return 'goodman'
+        if 'goodman' in self.phu.get('INSTRUME', '').lower():
+            return 'goodman'
+        else:
+            return None
