@@ -30,3 +30,10 @@ class Goodman(Soar):
             log.stdinfo("Coming to you from {}.".format(self.myself()))
 
         return
+
+    def goodmanPrimitive(self, *args, **kwargs):
+        log = self.log
+        log.stdinfo(gt.log_message(" This is a ", self.myself()))
+        for ad in self.adinputs:
+            log.stdinfo("The file name is: {}".format(ad.filename))
+            log.stdinfo("Tags are: {}".format(ad.tags))
