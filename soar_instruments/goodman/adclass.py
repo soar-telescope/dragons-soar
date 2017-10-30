@@ -40,12 +40,13 @@ class AstroDataGOODMAN(AstroDataSOAR):
 
     @astro_data_tag
     def _tag_image(self):
-        if self.phu.get('CAM_ANG') == 0 and self.phu.get('WAVMOD') == 'Imaging':
+        print(self.phu.get('WAVMODE'))
+        if self.phu.get('CAM_TARG') == 0 and self.phu.get('WAVMODE') == 'Imaging':
             return TagSet(['IMAGE'])
         
     @astro_data_tag
     def _tag_spect(self):
-        if self.phu.get('CAM_ANG') != 0 and self.phu.get('WAVMOD') != 'Imaging':
+        if self.phu.get('CAM_TARG') != 0 and self.phu.get('WAVMODE') != 'Imaging':
             return TagSet(['SPECT'])
 
 
