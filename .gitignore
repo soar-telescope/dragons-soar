@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-# Ignore PyCharm Files
-.idea/
-
-Would skip repository src/dragons
-src/pip-delete-this-directory.txt
-
-=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -110,4 +102,4 @@ ENV/
 
 #pycharm
 .idea
->>>>>>> 375b2883a9594fb5790544334e4f3f0256562aa1
+
