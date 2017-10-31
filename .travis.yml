@@ -1,16 +1,41 @@
 language: python
 python:
 - '2.7'
+- '3.5'
+- '3.6'
+
 branches:
   only:
   - master
   - auto_test
-sudo:
-- false
+
 install:
-- pip install -r requirements.txt
+- sudo apt-get update
+
+# We do this conditionally because it saves us some downloading if the version is the same.
+- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+  wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+else
+  wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+fi
+
+- bash miniconda.sh -b -p $HOME/miniconda
+- export PATH="$HOME/miniconda/bin:$PATH"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda config --add channels http://ssb.stsci.edu/astroconda
+- conda update -q conda
+
+# Useful for debugging any issues with conda
+- conda info -a
+
+# Create astroconda virtual environment
+- conda create -q -n astroconda stsci python=$TRAVIS_PYTHON_VERSION
+- source activate astroconda
+
 script:
 - pytest
+
 notifications:
   slack:
     secure: dI+wfZ322IFLMmYig0bMqvI6+njzIWksiu1VVHdGqgSM5ygwXasxUOEqfYJCS+yuQAmSUpWYuX8hGcwydD8ds8NinKZgtIzqO3I6o9gSRKBbBu6cUkLiqFJCjkK+br0wpu4J5sPgJAvJimSeMK4U3OVeq8rclCY7HXTmCt/h76NCNwHZmcJosnK5BYkolWUvCv71x47wnZBBi24uazC1dV6upAO4mnL8c7SeV+dpThAR8kftqcqaZQao/kncf9NtGhm3pvsR36P++vNwSmAGj0muOBMWyEXEgq70oKnCGH68uoaVJ8uyjvNqoTw3OYUCnJzZ5qdEeoZu+qzWgfvRH3q1XKyD0dCgoO1ux0nHdwLW4os4vrktVqeDNHwtFDjXe/4ojBiTe/4lUSOOPOH+5KU9WUtPfOmP3lBO3bFr/iiRohaHxiBuSV+Th+dW9dgl41cD0TQfGSK1No984IgohtVKzqhLLbBcz7MXUB4m7vg/uYiGd0Asj5pw2DK9atVyf5YVJaS65n/jNrH5E0XAciImPnJHs8a91FX0sh0AuupT9DEgZvbG5IDEScXOvNySY09dlUC89H1n+jhzce6Xi3Vpq+VmqP+AQNEjZ0eoyq2/9Y7pdOWmxV5hjKSal+a8k7am3pMXGQepsKDMUY1uiyHIc4kV0vq5cmlzL6G9DCI=
