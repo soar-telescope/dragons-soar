@@ -3,10 +3,12 @@ import re
 from astrodata import astro_data_tag, TagSet, astro_data_descriptor, returns_list
 from ..soar import AstroDataSOAR
 
+
 class AstroDataSAMI(AstroDataSOAR):
-    __keyword_dict = dict(data_section = 'DATASEC',
-                          gain = 'GAIN',
-                          )
+    __keyword_dict = dict(
+        data_section = 'DATASEC',
+        gain = 'GAIN',
+    )
 
     @staticmethod
     def _matches_data(data_provider):
