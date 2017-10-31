@@ -4,14 +4,11 @@
 language: python
 python:
   - "2.7"
-  - "3.6"
-  - "3.6-dev" # 3.6 development branch
-  - "3.7-dev" # 3.7 development branch
-  - "nightly"
 
 # Safelist
 branches:
   only:
+  - master
   - auto_test
 
 # Custom configuration
@@ -25,3 +22,7 @@ install:
 # command to run tests
 script:
   - pytest # or py.test for Python versions 3.5 and below
+
+notifications:
+  slack:
+    on_success: always
