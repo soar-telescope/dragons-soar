@@ -35,6 +35,10 @@ install:
 
 script:
 - pytest
+- sbt clean coverage test
+
+after_success:
+- sbt coveralls
 
 notifications:
   slack:
