@@ -40,6 +40,9 @@ install:
 # Install Coveralls
 - pip install coveralls
 
+# Install DRAGONS to be used with dragons-soar
+- pip install git+https://github.com/GeminiDRSoftware/DRAGONS.git
+
 script:
 - pytest
 - coverage run --branch --source= setup.py test
