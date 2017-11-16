@@ -1,18 +1,18 @@
 language: python
 python:
 - '2.7'
-- '3.5'
-- '3.6'
+#- '3.5'
+#- '3.6'
 
 branches:
   only:
   - master
-  - auto_test
 
 install:
 - sudo apt-get update
 
-# We do this conditionally because it saves us some downloading if the version is the same.
+# Here we install Anaconda to work with Virtual Environments. We do this
+# conditionally because it saves us some downloading if the version is the same.
 - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
     wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
   else
@@ -23,6 +23,9 @@ install:
 - export PATH="$HOME/miniconda/bin:$PATH"
 - hash -r
 - conda config --set always_yes yes --set changeps1 no
+
+# Adding AstroConda Channel since it contains most of the dependencies for
+# Dragons and Dragons-SOAR
 - conda config --add channels http://ssb.stsci.edu/astroconda
 - conda update -q conda
 
@@ -33,8 +36,19 @@ install:
 - conda create -q -n astroconda stsci python=$TRAVIS_PYTHON_VERSION
 - source activate astroconda
 
+# Install Coveralls
+- pip install coveralls
+
+# Install DRAGONS to be used with dragons-soar
+- pip install git+https://github.com/GeminiDRSoftware/DRAGONS.git
+
 script:
 - pytest
+- coverage run --branch --source= setup.py test
+# TODO - How can I add the soar_instruments/ and soardr/
+
+after_success:
+- coveralls
 
 notifications:
   slack:
