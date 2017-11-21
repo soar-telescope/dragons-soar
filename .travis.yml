@@ -1,8 +1,6 @@
 language: python
 python:
 - '2.7'
-#- '3.5'
-#- '3.6'
 
 branches:
   only:
@@ -45,8 +43,7 @@ install:
 
 script:
 - pytest
-- coverage run --branch --source= setup.py test
-# TODO - How can I add the soar_instruments/ and soardr/
+- coverage run --branch --source= setup.py --source soar_instruments --source= soardr
 
 after_success:
 - coveralls
