@@ -88,7 +88,6 @@ class AstroDataSAMI(AstroDataSOAR):
         """
         return self._parse_section(self._keyword_for('data_section'), pretty)
 
-
     @astro_data_descriptor
     def filter_name(self):
         """
