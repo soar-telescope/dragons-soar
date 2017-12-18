@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function, absolute_import
+
 import unittest
 import pkg_resources
 
-import astrodata
 import soar_instruments
+import astrodata
 
 
 class TestSAMI(unittest.TestCase):
@@ -15,5 +17,6 @@ class TestSAMI(unittest.TestCase):
             'soar_instruments', 'sample_data/sami_bias.fits')
 
         ad = astrodata.open(sample_bias)
-        assert isinstance(1, int)
-        assert isinstance(1., float)
+
+        assert True
+
