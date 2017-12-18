@@ -33,7 +33,7 @@ install:
 - conda info -a
 
 # Create astroconda virtual environment
-- conda create -q -n astroconda stsci python=$TRAVIS_PYTHON_VERSION
+- conda create -q -n astroconda stsci iraf-all pyraf-all python=$TRAVIS_PYTHON_VERSION
 - source activate astroconda
 
 # Install Coveralls
