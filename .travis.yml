@@ -40,7 +40,8 @@ install:
 - pip install coveralls
 
 # Install DRAGONS to be used with dragons-soar
-- pip install git+https://github.com/GeminiDRSoftware/DRAGONS.git
+#- pip install git+https://github.com/GeminiDRSoftware/DRAGONS.git
+- pip install -r requirements.txt
 - pip install .
 
 script:
