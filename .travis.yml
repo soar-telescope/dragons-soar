@@ -9,7 +9,7 @@ branches:
   - master
 
 install:
-- sudo apt-get update
+# - sudo apt-get update
 
 # Here we install Anaconda to work with Virtual Environments. We do this
 # conditionally because it saves us some downloading if the version is the same.
