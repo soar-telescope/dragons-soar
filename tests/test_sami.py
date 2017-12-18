@@ -16,6 +16,4 @@ class TestSAMI(unittest.TestCase):
 
         ad = astrodata.open(sample_bias)
         assert isinstance(1, int)
-
-
-
+        assert isinstance(1., float)

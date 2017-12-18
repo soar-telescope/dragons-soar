@@ -9,6 +9,8 @@ from soardr.soar.primitives_soar import Soar
 
 from ..utils.logging_handlers import log_adjust
 # ------------------------------------------------------------------------------
+
+
 @log_adjust
 class Goodman(Soar):
     """

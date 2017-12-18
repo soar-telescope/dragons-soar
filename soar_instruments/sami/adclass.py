@@ -18,7 +18,8 @@ class AstroDataSAMI(AstroDataSOAR):
     def _tag_instrument(self):
         # QUESTIONS: is SAMI always used with the SAM AO?
         #    is SAMI used only at one telescopes or multiple ones?
-        return TagSet(['SAMI'])
+        # ANSWER: yes, SAMI is always used with SAM and only at SOAR Telescope.
+        return TagSet(['SAMI', 'SAM'])
 
     @astro_data_tag
     def _tag_flat(self):
@@ -45,7 +46,8 @@ class AstroDataSAMI(AstroDataSOAR):
         # But since OBSTYPE is being used for both, not clear how that
         # can be done right now.
         filename = self.phu.get('FILENAME', '')
-        if re.search('acq.[0-9]+', filename):
+        notes = self.phd.get('NOTES', '')
+        if re.search('acq.[0-9]+', filename) or 'acq' in notes:
             return TagSet(['ACQUISITION', 'IMAGE'])
 
     @astro_data_tag
@@ -92,7 +94,8 @@ class AstroDataSAMI(AstroDataSOAR):
     @astro_data_descriptor
     def filter_name(self):
         """
-        Returns the name of the filter used according to the summary FILTERS keyword.
+        Returns the name of the filter used according to the summary FILTERS
+        keyword.
 
         Returns
         -------
@@ -113,8 +116,8 @@ class AstroDataSAMI(AstroDataSOAR):
         float
             The gain for each amplifier
         """
-        ### Bruno:  GAIN is set to "unavail" in the headers.  Do you have
-        ###         the gain for each amp in some lookup table?
+        # Bruno:  GAIN is set to "unavail" in the headers. Do you have
+        #         the gain for each amp in some lookup table?
         gain = []
         for hdr in self.header[1:]:
             val = hdr[self.__keyword_dict['gain']]

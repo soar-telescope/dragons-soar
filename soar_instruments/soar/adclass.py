@@ -1,9 +1,10 @@
-from astrodata import AstroDataFits, astro_data_tag, astro_data_descriptor, TagSet
+from astrodata import AstroDataFits, astro_data_tag, astro_data_descriptor, \
+    TagSet
 
 from ..utilities import section_to_tuple
 
 soar_keyword_names = dict(
-    exposure_time = 'EXPTIME'
+    exposure_time='EXPTIME'
 )
 
 class AstroDataSOAR(AstroDataFits):
