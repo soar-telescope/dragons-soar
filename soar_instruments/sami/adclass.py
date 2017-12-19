@@ -46,8 +46,8 @@ class AstroDataSAMI(AstroDataSOAR):
         # But since OBSTYPE is being used for both, not clear how that
         # can be done right now.
         filename = self.phu.get('FILENAME', '')
-        notes = self.phd.get('NOTES', '')
-        if re.search('acq.[0-9]+', filename) or 'acq' in notes:
+        #notes = self.phu.get('NOTES', '')
+        if re.search('acq.[0-9]+', filename):
             return TagSet(['ACQUISITION', 'IMAGE'])
 
     @astro_data_tag
