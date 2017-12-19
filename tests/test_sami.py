@@ -17,10 +17,10 @@ class TestSAMI(unittest.TestCase):
 
         assert os.path.exists(sample_bias)
 
-    def test_bias(self):
-
-        sample_bias = pkg_resources.resource_filename(
-            'soar_instruments', 'sample_data/sami_bias.fits')
-
-        ad = astrodata.open(sample_bias)
+#    def test_bias(self):#
+#
+#        sample_bias = pkg_resources.resource_filename(
+#            'soar_instruments', 'sample_data/sami_bias.fits')#
+#
+#        ad = astrodata.open(sample_bias)
 
