@@ -33,4 +33,4 @@ class TestSAMI(unittest.TestCase):
         # Try to open in astrodata
         ad = astrodata.open(sample_bias)
 
-        print ad.info()
+        print(ad.info())
