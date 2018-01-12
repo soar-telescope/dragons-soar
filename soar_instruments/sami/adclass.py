@@ -5,20 +5,21 @@ from ..soar import AstroDataSOAR
 
 
 class AstroDataSAMI(AstroDataSOAR):
-    __keyword_dict = dict(
-        data_section='DATASEC',
-        gain='GAIN',
-    )
+
+    __keyword_dict = dict(data_section='DATASEC', gain='GAIN')
 
     @staticmethod
     def _matches_data(source):
-        return source[0].header.get('INSTRUME', '').upper() in ['SAMI']
+        return source[0].header.get('INSTRUME', '') == 'SAM'
 
     @astro_data_tag
     def _tag_instrument(self):
-        # QUESTIONS: is SAMI always used with the SAM AO?
-        #    is SAMI used only at one telescopes or multiple ones?
-        # ANSWER: yes, SAMI is always used with SAM and only at SOAR Telescope.
+        # QUESTIONS:
+        # 1) is SAMI always used with the SAM AO?
+        # 2) is SAMI used only at one telescopes or multiple ones?
+        # ANSWER:
+        # 1) SAMI is always used withing SAM but not always with AO.
+        # 2) SAMI and SAM are only used at SOAR Telescope.
         return TagSet(['SAMI', 'SAM'])
 
     @astro_data_tag
