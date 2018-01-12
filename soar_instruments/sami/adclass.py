@@ -6,13 +6,13 @@ from ..soar import AstroDataSOAR
 
 class AstroDataSAMI(AstroDataSOAR):
     __keyword_dict = dict(
-        data_section = 'DATASEC',
-        gain = 'GAIN',
+        data_section='DATASEC',
+        gain='GAIN',
     )
 
     @staticmethod
-    def _matches_data(data_provider):
-        return data_provider.phu.get('INSTRMT', '').upper() == 'SAMI'
+    def _matches_data(source):
+        return source[0].header.get('INSTRUME', '').upper() in ['SAMI']
 
     @astro_data_tag
     def _tag_instrument(self):
@@ -89,7 +89,6 @@ class AstroDataSAMI(AstroDataSOAR):
             format (1-based).
         """
         return self._parse_section(self._keyword_for('data_section'), pretty)
-
 
     @astro_data_descriptor
     def filter_name(self):

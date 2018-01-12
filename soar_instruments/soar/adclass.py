@@ -7,14 +7,19 @@ soar_keyword_names = dict(
     exposure_time='EXPTIME'
 )
 
+
 class AstroDataSOAR(AstroDataFits):
     __keyword_dict = soar_keyword_names
 
     @staticmethod
-    def _matches_data(data_provider):
-        if data_provider.phu.get('OBSERVAT', '').upper() == 'SOAR' or \
-        data_provider.phu.get('TELESCOP', '') == 'SOAR 4.1m':
-            return True
+    def _matches_data(source):
+
+        if 'OBSERVAT' in source[0].header:
+            return source[0].header.get('OBSERVAT', '').upper() == 'SOAR'
+
+        elif 'TELESCOP' in source[0].header:
+            return source[0].header.get('TELESCOP', '') == 'SOAR 4.1m'
+
         else:
             return False
 
