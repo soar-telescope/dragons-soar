@@ -3,11 +3,13 @@ import re
 from astrodata import astro_data_tag, TagSet, astro_data_descriptor, returns_list
 from ..soar import AstroDataSOAR
 
+
 class AstroDataGOODMAN(AstroDataSOAR):
 
     @staticmethod
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '') == 'Goodman Spectro'
+
 
     @astro_data_tag
     def _tag_instrument(self):
