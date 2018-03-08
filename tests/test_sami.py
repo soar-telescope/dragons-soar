@@ -106,4 +106,4 @@ class SAMI_DR(unittest.TestCase):
 
     def test_hello_world(self):
 
-        soardr.
+        self.fail("Implement me!")

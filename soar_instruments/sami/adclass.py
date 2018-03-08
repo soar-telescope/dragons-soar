@@ -8,6 +8,10 @@ class AstroDataSAMI(AstroDataSOAR):
 
     __keyword_dict = dict(data_section='DATASEC', gain='GAIN')
 
+    def __init__(self, *args, **kwargs):
+        print("Dummy class constructor for AstroDataSAMI")
+        super(AstroDataSAMI, self).__init__(*args, **kwargs)
+
     @staticmethod
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '') == 'SAM'
