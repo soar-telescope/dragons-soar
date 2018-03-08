@@ -5,13 +5,16 @@ import pkg_resources
 import os
 
 from astropy.io import fits as pyfits
+from unittest import skip
 
 import soar_instruments
 import soardr
 import astrodata
 
+from recipe_system.reduction.coreReduce import Reduce
 
-class SAMI_IO(unittest.TestCase):
+
+class SamiIo(unittest.TestCase):
 
     def test_bias(self):
         """
@@ -85,8 +88,8 @@ class SAMI_IO(unittest.TestCase):
 
         # Temporary fix for the issue regarding the EXTNAME
         hdu = pyfits.open(sample_object)
-        for i in range(1, len(hdu)):
-            del hdu[i].header['EXTNAME']
+        #for i in range(1, len(hdu)):
+        #    del hdu[i].header['EXTNAME']
 
         new_sample_object = sample_object.replace('.fits', '_c.fits')
         hdu.writeto(new_sample_object, overwrite=True)
@@ -102,8 +105,8 @@ class SAMI_IO(unittest.TestCase):
 
         os.remove(new_sample_object)
 
-class SAMI_DR(unittest.TestCase):
 
-    def test_hello_world(self):
+class SamiDataReduction(unittest.TestCase):
 
-        self.fail("Implement me!")
+    def test_reduce(self):
+        reduce = Reduce()

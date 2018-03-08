@@ -1,6 +1,8 @@
 import re
 
-from astrodata import astro_data_tag, TagSet, astro_data_descriptor, returns_list
+from astrodata import (astro_data_tag, TagSet, astro_data_descriptor,
+                       returns_list)
+from astrodata.fits import FitsLoader, FitsProvider
 from ..soar import AstroDataSOAR
 
 
@@ -8,13 +10,9 @@ class AstroDataSAMI(AstroDataSOAR):
 
     __keyword_dict = dict(data_section='DATASEC', gain='GAIN')
 
-    def __init__(self, *args, **kwargs):
-        print("Dummy class constructor for AstroDataSAMI")
-        super(AstroDataSAMI, self).__init__(*args, **kwargs)
-
     @staticmethod
     def _matches_data(source):
-        return source[0].header.get('INSTRUME', '') == 'SAM'
+        return source[0].header.get('INSTRUME', '').upper() in ('SAMI')
 
     @astro_data_tag
     def _tag_instrument(self):
@@ -130,3 +128,15 @@ class AstroDataSAMI(AstroDataSOAR):
             else:
                 gain.append(None)
         return gain
+
+    @classmethod
+    def load(cls, source):
+
+        def sami_parser(hdu):
+            m = re.match('im(\d)', hdu.header.get('EXTNAME', ''))
+            if m:
+                hdu.header['EXTNAME'] = ('SCI', 'Added by AstroData')
+                hdu.header['EXTVER'] = (int(m.group(1)), 'Added by AstroData')
+
+        return cls(FitsLoader(FitsProvider).load(source,
+                                                 extname_parser=sami_parser))

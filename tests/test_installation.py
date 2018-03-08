@@ -11,3 +11,4 @@ def test_installation():
 
     from recipe_system.mappers import recipeMapper
     from recipe_system.mappers import primitiveMapper
+    from recipe_system.reduction.coreReduce import Reduce
