@@ -14,14 +14,16 @@ import astrodata
 from recipe_system.reduction.coreReduce import Reduce
 
 
-class SamiIo(unittest.TestCase):
+class Test_IO(unittest.TestCase):
+
+    path = "soar_instruments/test/data/"
 
     def test_bias(self):
         """
         Just check if the a BIAS obtained with SAMI is read correctly and if
         the tags are set properly.
         """
-        sample_bias = 'tests/data/sami/sami_bias.fits'
+        sample_bias = os.path.join(self.path, "sami_bias.fits")
 
         # Check if file exists
         assert os.path.exists(sample_bias)
@@ -51,7 +53,7 @@ class SamiIo(unittest.TestCase):
         Just check if the a FLAT obtained with SAMI is read correctly and if
         the tags are set properly.
         """
-        sample_flat = 'tests/data/sami/sami_skyflat.fits'
+        sample_flat = os.path.join(self.path, "sami_skyflat.fits")
 
         # Check if file exists
         self.assertTrue(os.path.exists(sample_flat))
@@ -81,7 +83,7 @@ class SamiIo(unittest.TestCase):
         Just check if the a FLAT obtained with SAMI is read correctly and if
         the tags are set properly.
         """
-        sample_object = 'tests/data/sami/sami_object.fits'
+        sample_object = os.path.join(self.path, "sami_object.fits")
 
         # Check if file exists
         self.assertTrue(os.path.exists(sample_object))
@@ -105,8 +107,3 @@ class SamiIo(unittest.TestCase):
 
         os.remove(new_sample_object)
 
-
-class SamiDataReduction(unittest.TestCase):
-
-    def test_reduce(self):
-        reduce = Reduce()

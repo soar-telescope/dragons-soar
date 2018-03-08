@@ -21,10 +21,10 @@ def section_to_tuple(section):
     -------
     An instance of `Section`
     """
-    return Section(*sectionStrToIntList(section))
+    return Section(*section_str_to_int_list(section))
 
 
-def sectionStrToIntList(section):
+def section_str_to_int_list(section):
     """
     Convert the input section in the form '[x1:x2,y1:y2]' to a tuple in the
     form (x1 - 1, x2, y1 - 1, y2), where x1, x2, y1 and y2 are
@@ -51,3 +51,4 @@ def sectionStrToIntList(section):
 
     # Return the tuple in the form (x1 - 1, x2, y1 - 1, y2)
     return x1, x2, y1, y2
+
