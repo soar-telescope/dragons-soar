@@ -1,8 +1,10 @@
 __all__ = ['Section']
 
+
 from collections import namedtuple
 
 Section = namedtuple('Section', 'x1 x2 y1 y2')
+
 
 def section_to_tuple(section):
     """
@@ -48,4 +50,4 @@ def sectionStrToIntList(section):
     y2 = int(xylist[1].split(':')[1])
 
     # Return the tuple in the form (x1 - 1, x2, y1 - 1, y2)
-    return (x1, x2, y1, y2)
+    return x1, x2, y1, y2

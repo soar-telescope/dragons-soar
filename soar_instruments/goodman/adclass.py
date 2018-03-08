@@ -10,7 +10,6 @@ class AstroDataGOODMAN(AstroDataSOAR):
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '') == 'Goodman Spectro'
 
-
     @astro_data_tag
     def _tag_instrument(self):
         return TagSet(['GOODMAN'])
@@ -50,7 +49,6 @@ class AstroDataGOODMAN(AstroDataSOAR):
     def _tag_spect(self):
         if self.phu.get('CAM_TARG') != 0 and self.phu.get('WAVMODE') != 'Imaging':
             return TagSet(['SPECT'])
-
 
     @astro_data_descriptor
     def instrument(self, generic=False):

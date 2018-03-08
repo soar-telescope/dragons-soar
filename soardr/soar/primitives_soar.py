@@ -7,7 +7,8 @@ from gempy.gemini import gemini_tools as gt
 
 from soardr import PrimitivesSoarBASE
 from ..utils.logging_handlers import log_adjust
-# ------------------------------------------------------------------------------
+
+
 @log_adjust
 class Soar(PrimitivesSoarBASE):
     
@@ -16,7 +17,7 @@ class Soar(PrimitivesSoarBASE):
     def __init__(self, adinputs, **kwargs):
         super(Soar, self).__init__(adinputs, **kwargs)
 
-    def helloWorld(self, *args, **params):
+    def hello_world(self, *args, **params):
         log = self.log
         log.stdinfo(gt.log_message("primitive", self.myself(), "starting"))
         for ad in self.adinputs:
