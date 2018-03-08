@@ -40,7 +40,8 @@ setup(
 
     # Author details
     author=u'Bruno Quint, '
-           u'Cesar Briceño'
+           u'Cesar Briceño, '
+           u'Chris Simpson, '
            u'Kathleen Labrie, '
            u'Kenneth Anderson, '
            u'Simon Torres, ',
@@ -88,7 +89,7 @@ setup(
     # this:
     #   py_modules=["my_module"],
 
-    # List run-time dependencies here.  These will be installed by pip when
+    # List run-time dependencies here. These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
@@ -124,4 +125,10 @@ setup(
     #        'sample=sample:main',
     #    ],
     #},
+
+    # Requirements for integration tests
+    setup_requires=['pytest-runner',],
+    tests_require=['pytest',],
+
+
 )
