@@ -7,7 +7,10 @@ import astrodata
 
 from recipe_system.reduction.coreReduce import Reduce
 
+import sys
+
 class Test_DR(TestCase):
 
     def test_reduce(self):
+
         reduce = Reduce()

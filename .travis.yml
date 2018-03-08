@@ -1,7 +1,7 @@
 language: python
 python:
-- '2.7'
-- '3.5'
+#- '2.7'
+#- '3.5'
 - '3.6'
 
 branches:
@@ -46,7 +46,6 @@ install:
 
 script:
 - py.test --ignore=src
-- coverage run --branch --source=setup.py test
 
 #after_success:
 - coveralls
