@@ -28,16 +28,8 @@ class Test_IO(unittest.TestCase):
         # Check if file exists
         assert os.path.exists(sample_bias)
 
-        # Temporary fix for the issue regarding the EXTNAME
-        hdu = pyfits.open(sample_bias)
-        for i in range(1, len(hdu)):
-            del hdu[i].header['EXTNAME']
-
-        new_sample_bias = sample_bias.replace('.fits', '_c.fits')
-        hdu.writeto(new_sample_bias, overwrite=True)
-
         # Try to open in astrodata
-        ad = astrodata.open(new_sample_bias)
+        ad = astrodata.open(sample_bias)
 
         # Check if the tags are set correctly
         self.assertIn('SOAR', ad.tags)
@@ -45,8 +37,6 @@ class Test_IO(unittest.TestCase):
         self.assertIn('SAMI', ad.tags)
         self.assertIn('CAL', ad.tags)
         self.assertIn('BIAS', ad.tags)
-
-        os.remove(new_sample_bias)
 
     def test_flat(self):
         """
