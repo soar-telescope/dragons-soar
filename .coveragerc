@@ -1,7 +1,7 @@
 [report]
 omit =
     src/*
-    .eggs
+    .eggs/*
 exclude_lines =
     raise NotImplementedError
     if __name__ == .__main__.:
