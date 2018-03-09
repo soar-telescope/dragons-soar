@@ -1,0 +1,10 @@
+name: dragons
+channels:
+  - astroconda
+dependencies:
+  - astropy
+  - pip
+  - pip:
+    - future
+    - coveralls
+    - "--editable=git+git://github.com/GeminiDRSoftware/DRAGONS@master#egg=DRAGONS"
