@@ -1,0 +1,5 @@
+[report]
+omit = src/*
+exclude_lines =
+    raise NotImplementedError
+    if __name__ == .__main__.:
