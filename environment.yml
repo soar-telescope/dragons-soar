@@ -3,6 +3,7 @@ channels:
   - astroconda
 dependencies:
   - astropy
+  - dateutil
   - pip
   - pip:
     - future
