@@ -4,9 +4,6 @@ import unittest
 import pkg_resources
 import os
 
-from astropy.io import fits as pyfits
-from unittest import skip
-
 import soar_instruments
 import soardr
 import astrodata
@@ -31,7 +28,6 @@ class Test_IO(unittest.TestCase):
         # Try to open in astrodata
         ad = astrodata.open(sample_acq)
 
-        # Check if the tags are set correctly
         # Check if the tags are set correctly
         self.assertIn('SOAR', ad.tags)
         self.assertIn('SAM', ad.tags)

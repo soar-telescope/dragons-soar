@@ -9,10 +9,8 @@ from recipe_system.reduction.coreReduce import Reduce
 
 import sys
 
-_version = 'The_Bruno_test'
 
-
-class Test_DR(TestCase):
+class TestReduce(TestCase):
 
     def test_reduce(self):
         reduce = Reduce()
