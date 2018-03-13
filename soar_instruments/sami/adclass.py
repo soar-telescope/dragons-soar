@@ -49,8 +49,9 @@ class AstroDataSAMI(AstroDataSOAR):
         # But since OBSTYPE is being used for both, not clear how that
         # can be done right now.
         filename = self.phu.get('FILENAME', '')
-        #notes = self.phu.get('NOTES', '')
-        if re.search('acq.[0-9]+', filename):
+        notes = self.phu.get('NOTES', '')
+
+        if re.search('acq.[0-9]+', filename) or re.search('/acq/i',  notes):
             return TagSet(['ACQUISITION', 'IMAGE'])
 
     @astro_data_tag
@@ -105,7 +106,6 @@ class AstroDataSAMI(AstroDataSOAR):
             The name of the filter.
 
         """
-
         return self.phu.get('FILTERS')
 
     @astro_data_descriptor
@@ -121,8 +121,8 @@ class AstroDataSAMI(AstroDataSOAR):
         # Bruno:  GAIN is set to "unavail" in the headers. Do you have
         #         the gain for each amp in some lookup table?
         gain = []
-        for hdr in self.header[1:]:
-            val = hdr[self.__keyword_dict['gain']]
+        for ad in self[1:]:
+            val = ad.hdr['gain']
             if val != 'unavail':
                 gain.append(val)
             else:
