@@ -117,6 +117,15 @@ class Test_Attributes(unittest.TestCase):
 
     path = "soar_instruments/test/data/"
 
+    def test_datasec(self):
+
+        files = ["sami_skyflat.fits", "sami_domeflat.fits", "sami_object.fits"]
+
+        for f in files:
+            sample = os.path.join(self.path, f)
+            ad = astrodata.open(sample)
+            ad.data_section()
+
     def test_filters(self):
 
         files = ["sami_skyflat.fits", "sami_domeflat.fits", "sami_object.fits"]
