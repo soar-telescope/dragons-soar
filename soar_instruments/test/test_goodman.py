@@ -21,6 +21,8 @@ class TestBlueIo(unittest.TestCase):
         # Try to open in astrodata
         ad = astrodata.open(sample)
 
+        self.assertEqual(ad.instrument(), 'goodman')
+
         # Check if the tags are set correctly
         for t in tags:
             self.assertIn(t, ad.tags)
