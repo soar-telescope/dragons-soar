@@ -6,6 +6,8 @@ from ..soar import AstroDataSOAR
 
 class AstroDataGOODMAN(AstroDataSOAR):
 
+    __keyword_dict = dict(data_section='TRIMSEC')
+
     @staticmethod
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '') == 'Goodman Spectro'
