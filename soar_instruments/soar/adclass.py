@@ -15,10 +15,10 @@ class AstroDataSOAR(AstroDataFits):
     def _matches_data(source):
 
         if 'OBSERVAT' in source[0].header:
-            return source[0].header.get('OBSERVAT', '').upper() == 'SOAR'
+            return source[0].header['OBSERVAT'].upper() == 'SOAR'
 
         elif 'TELESCOP' in source[0].header:
-            return source[0].header.get('TELESCOP', '') == 'SOAR 4.1m'
+            return source[0].header['TELESCOP'] == 'SOAR 4.1m'
 
         else:
             return False
