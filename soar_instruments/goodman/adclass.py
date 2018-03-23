@@ -41,7 +41,6 @@ class AstroDataGOODMAN(AstroDataSOAR):
 
     @astro_data_tag
     def _tag_image(self):
-        print(self.phu.get('WAVMODE'))
         if self.phu.get('CAM_TARG') == 0 and self.phu.get('WAVMODE') == 'Imaging':
             return TagSet(['IMAGE'])
         

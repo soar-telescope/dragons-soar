@@ -12,7 +12,7 @@ class AstroDataSAMI(AstroDataSOAR):
 
     @staticmethod
     def _matches_data(source):
-        return source[0].header.get('INSTRUME', '').upper() in ('SAMI')
+        return source[0].header.get('INSTRUME', '').upper() in {'SAMI', 'SAM'}
 
     @astro_data_tag
     def _tag_instrument(self):
