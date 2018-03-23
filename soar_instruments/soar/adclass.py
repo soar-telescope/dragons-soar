@@ -15,7 +15,7 @@ class AstroDataSOAR(AstroDataFits):
     def _matches_data(source):
 
         if 'OBSERVAT' in source[0].header:
-            return source[0].header['OBSERVAT'].upper() == 'SOAR'
+            return source[0].header['OBSERVAT'].strip().upper() == 'SOAR'
 
         elif 'TELESCOP' in source[0].header:
             return source[0].header['TELESCOP'] == 'SOAR 4.1m'
@@ -47,3 +47,24 @@ class AstroDataSOAR(AstroDataFits):
                 return [process_fn(raw) for raw in sections]
         except (KeyError, TypeError):
             return None
+
+
+class AstroDataDummy(AstroDataSOAR):
+
+    @staticmethod
+    def _matches_data(source):
+        if 'INSTRUME' in source[0].header:
+            instrument = source[0].header.get('INSTRUME')
+            instrument = instrument.strip()
+            instrument = instrument.upper()
+            return instrument in {'DUMMY'}
+        else:
+            False
+
+    @astro_data_tag
+    def _tag_instrument(self):
+        return TagSet(['DUMMY'])
+
+    @astro_data_descriptor
+    def data_section(self, pretty=False):
+        return self._parse_section(self._keyword_for('data_section'), pretty)

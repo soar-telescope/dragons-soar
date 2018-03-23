@@ -3,7 +3,6 @@ import os
 import unittest
 
 import soar_instruments
-import soardr
 import astrodata
 
 
