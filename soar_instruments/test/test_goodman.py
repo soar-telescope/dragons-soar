@@ -26,10 +26,22 @@ class TestBlueIo(unittest.TestCase):
         for t in tags:
             self.assertIn(t, ad.tags)
 
+        for t in ad.tags:
+            self.assertIn(t, tags)
+
+        for t in ad.tags:
+            self.assertIn(t, tags)
+
+    def test_acq(self):
+
+        filename = "goodman_blue_acq.fits"
+        expected_tags = ['SOAR', 'GOODMAN', 'BLUE', 'ACQ']
+        self.tag_checker(filename, expected_tags)
+
     def test_bias(self):
 
         filename = "goodman_blue_bias.fits"
-        expected_tags = ['SOAR', 'GOODMAN', 'CAL', 'BIAS']
+        expected_tags = ['SOAR', 'GOODMAN', 'BLUE', 'CAL', 'BIAS', 'SPECT']
         self.tag_checker(filename, expected_tags)
 
     def test_comp(self):
@@ -74,10 +86,16 @@ class TestRedIo(unittest.TestCase):
         for t in tags:
             self.assertIn(t, ad.tags)
 
+    def test_acq(self):
+
+        filename = "goodman_red_acq.fits"
+        expected_tags = ['SOAR', 'GOODMAN', 'RED', 'ACQ']
+        self.tag_checker(filename, expected_tags)
+
     def test_bias(self):
 
         filename = "goodman_red_bias.fits"
-        expected_tags = ['SOAR', 'GOODMAN', 'RED', 'CAL', 'BIAS']
+        expected_tags = ['SOAR', 'GOODMAN', 'RED', 'CAL', 'BIAS', 'SPECT']
         self.tag_checker(filename, expected_tags)
 
     def test_comp(self):
@@ -89,7 +107,7 @@ class TestRedIo(unittest.TestCase):
     def test_flat(self):
 
         filename = "goodman_red_flat.fits"
-        expected_tags = ['SOAR', 'GOODMAN', 'RED', 'CAL', 'FLAT']
+        expected_tags = ['SOAR', 'GOODMAN', 'RED', 'CAL', 'FLAT', 'SPECT']
         self.tag_checker(filename, expected_tags)
 
     def test_imag(self):
