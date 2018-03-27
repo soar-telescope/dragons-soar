@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-import pkg_resources
+import glob
 import os
+import unittest
 
 import soar_instruments
 import soardr
@@ -109,22 +109,22 @@ class Test_IO(unittest.TestCase):
         self.assertIn('CAL', ad.tags)
         self.assertIn('FLAT', ad.tags)
 
+
 class Test_Attributes(unittest.TestCase):
 
     path = "soar_instruments/test/data/"
 
     def test_datasec(self):
 
-        files = ["sami_skyflat.fits", "sami_domeflat.fits", "sami_object.fits"]
+        files = glob.glob(os.path.join(self.path, "sami_*.fits"))
 
         for f in files:
-            sample = os.path.join(self.path, f)
-            ad = astrodata.open(sample)
+            ad = astrodata.open(f)
             ad.data_section()
 
     def test_filters(self):
 
-        files = ["sami_skyflat.fits", "sami_domeflat.fits", "sami_object.fits"]
+        files = glob.glob(os.path.join(self.path, "sami_*.fits"))
 
         for f in files:
             sample = os.path.join(self.path, f)
@@ -133,7 +133,7 @@ class Test_Attributes(unittest.TestCase):
 
     def test_gain(self):
 
-        files = ["sami_skyflat.fits", "sami_domeflat.fits", "sami_object.fits"]
+        files = glob.glob(os.path.join(self.path, "sami_*.fits"))
 
         for f in files:
             sample = os.path.join(self.path, f)
