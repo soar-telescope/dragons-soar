@@ -8,8 +8,6 @@ import soar_instruments
 import soardr
 import astrodata
 
-from recipe_system.reduction.coreReduce import Reduce
-
 
 class Test_IO(unittest.TestCase):
 
@@ -127,8 +125,7 @@ class Test_Attributes(unittest.TestCase):
         files = glob.glob(os.path.join(self.path, "sami_*.fits"))
 
         for f in files:
-            sample = os.path.join(self.path, f)
-            ad = astrodata.open(sample)
+            ad = astrodata.open(f)
             ad.filter_name()
 
     def test_gain(self):
@@ -136,6 +133,5 @@ class Test_Attributes(unittest.TestCase):
         files = glob.glob(os.path.join(self.path, "sami_*.fits"))
 
         for f in files:
-            sample = os.path.join(self.path, f)
-            ad = astrodata.open(sample)
+            ad = astrodata.open(f)
             ad.gain()
