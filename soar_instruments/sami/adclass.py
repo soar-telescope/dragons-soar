@@ -1,7 +1,7 @@
 import re
 
-import astrodata
-
+from astrodata import (astro_data_tag, TagSet, astro_data_descriptor,
+                       returns_list)
 from astrodata.fits import FitsLoader, FitsProvider
 from ..soar import AstroDataSOAR
 
@@ -14,7 +14,7 @@ class AstroDataSAMI(AstroDataSOAR):
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '').upper() in {'SAMI', 'SAM'}
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_instrument(self):
         # QUESTIONS:
         # 1) is SAMI always used with the SAM AO?
@@ -22,28 +22,28 @@ class AstroDataSAMI(AstroDataSOAR):
         # ANSWER:
         # 1) SAMI is always used withing SAM but not always with AO.
         # 2) SAMI and SAM are only used at SOAR Telescope.
-        return astrodata.TagSet(['SAMI', 'SAM'])
+        return TagSet(['SAMI', 'SAM'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_flat(self):
         # Ideally, we would want 'IMAGE' to be set by the 'IMAGE' tag.
         # But since OBSTYPE is being used for both, not clear how that
         # can be done right now.
         obstype = self.phu.get('OBSTYPE', '')
         if 'FLAT' in obstype:
-            return astrodata.TagSet(['FLAT', 'CAL', 'IMAGE'])
+            return TagSet(['FLAT', 'CAL', 'IMAGE'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_twilight(self):
         if self.phu.get('OBSTYPE') == 'SFLAT':
-            return astrodata.TagSet(['TWILIGHT'])
+            return TagSet(['TWILIGHT'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_domeflat(self):
         if self.phu.get('OBSTYPE') == 'DFLAT':
-            return astrodata.TagSet(['DOME'])
+            return TagSet(['DOME'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_acquisition(self):
         # Ideally, we would want 'IMAGE' to be set by the 'IMAGE' tag.
         # But since OBSTYPE is being used for both, not clear how that
@@ -52,20 +52,20 @@ class AstroDataSAMI(AstroDataSOAR):
         notes = self.phu.get('NOTES', '')
 
         if re.search('acq.[0-9]+', filename) or re.search('/acq/i',  notes):
-            return astrodata.TagSet(['ACQUISITION', 'IMAGE'])
+            return TagSet(['ACQUISITION', 'IMAGE'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_image(self):
         # this one will need something like "if not FABRY keyword", I think.
         if self.phu.get('OBSTYPE') == 'OBJECT':
-            return astrodata.TagSet(['IMAGE'])
+            return TagSet(['IMAGE'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_bias(self):
         if self.phu.get('OBSTYPE') == 'ZERO':
-            return astrodata.TagSet(['BIAS', 'CAL'], blocks=['IMAGE', 'FABRY'])
+            return TagSet(['BIAS', 'CAL'], blocks=['IMAGE', 'FABRY'])
 
-    @astrodata.astro_data_descriptor
+    @astro_data_descriptor
     def data_section(self, pretty=False):
         """
         Returns the rectangular section that includes the pixels that would be
@@ -94,7 +94,7 @@ class AstroDataSAMI(AstroDataSOAR):
         """
         return self._parse_section(self._keyword_for('data_section'), pretty)
 
-    @astrodata.astro_data_descriptor
+    @astro_data_descriptor
     def filter_name(self):
         """
         Returns the name of the filter used according to the summary FILTERS
@@ -108,7 +108,7 @@ class AstroDataSAMI(AstroDataSOAR):
         """
         return self.phu.get('FILTERS')
 
-    @astrodata.astro_data_descriptor
+    @astro_data_descriptor
     def gain(self):
         """
         Gain of the amplifier

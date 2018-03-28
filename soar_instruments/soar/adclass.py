@@ -1,7 +1,5 @@
-
-import astrodata
-
-from astrodata import AstroDataFits
+from astrodata import AstroDataFits, astro_data_tag, astro_data_descriptor, \
+    TagSet
 
 from ..utilities import section_to_tuple
 
@@ -25,9 +23,9 @@ class AstroDataSOAR(AstroDataFits):
         else:
             return False
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _type_observatory(self):
-        return astrodata.TagSet(['SOAR'])
+        return TagSet(['SOAR'])
 
     # Utilities
     def _parse_section(self, keyword, pretty):
@@ -63,9 +61,9 @@ class AstroDataDummy(AstroDataSOAR):
         else:
             False
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_instrument(self):
-        return astrodata.TagSet(['DUMMY'])
+        return TagSet(['DUMMY'])
 
     @astro_data_descriptor
     def data_section(self, pretty=False):

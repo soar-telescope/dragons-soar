@@ -1,6 +1,6 @@
+import re
 
-import astrodata
-
+from astrodata import astro_data_tag, TagSet, astro_data_descriptor, returns_list
 from ..soar import AstroDataSOAR
 
 
@@ -12,57 +12,57 @@ class AstroDataGOODMAN(AstroDataSOAR):
     def _matches_data(source):
         return source[0].header.get('INSTRUME', '') == 'Goodman Spectro'
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_instrument(self):
-        return astrodata.TagSet(['GOODMAN'])
-
-    @astrodata.astro_data_tag
+        return TagSet(['GOODMAN'])
+    
+    @astro_data_tag
     def _tag_arc(self):
         if self.phu.get('OBSTYPE') == 'COMP':
-            return astrodata.TagSet(['ARC', 'CAL'])
+            return TagSet(['ARC', 'CAL'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_bias(self):
         if self.phu.get('OBSTYPE') == 'BIAS':
-            return astrodata.TagSet(['BIAS', 'CAL'])
+            return TagSet(['BIAS', 'CAL'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_flat(self):
         if self.phu.get('OBSTYPE') == 'FLAT':
-            return astrodata.TagSet(['FLAT', 'CAL'])
+            return TagSet(['FLAT', 'CAL'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_red(self):
         if self.phu.get('INSTCONF') == 'Red':
-            return astrodata.TagSet(['RED'])
+            return TagSet(['RED'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_blue(self):
         if self.phu.get('INSTCONF') == 'Blue':
-            return astrodata.TagSet(['BLUE'])
+            return TagSet(['BLUE'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_image(self):
         if self.phu.get('CAM_TARG') == 0 and self.phu.get('WAVMODE') == 'Imaging':
-            return astrodata.TagSet(['IMAGE'])
+            return TagSet(['IMAGE'])
 
-    @astrodata.astro_data_tag
+    @astro_data_tag
     def _tag_acq(self):
         if self.phu.get('CAM_TARG') == 0 and self.phu.get('WAVMODE') != 'Imaging':
-            return astrodata.TagSet(['ACQ'])
-
-    @astrodata.astro_data_tag
+            return TagSet(['ACQ'])
+        
+    @astro_data_tag
     def _tag_spect(self):
         if self.phu.get('CAM_TARG') != 0 and self.phu.get('WAVMODE') != 'Imaging':
-            return astrodata.TagSet(['SPECT'])
+            return TagSet(['SPECT'])
 
-    @astrodata.astro_data_descriptor
+    @astro_data_descriptor
     def instrument(self, generic=False):
         # The code existing here was removed because the file is checked during the load process. There is no need to
         # check it again here.
         return 'goodman'
 
-    @astrodata.astro_data_descriptor
+    @astro_data_descriptor
     def data_section(self, pretty=False):
         """
         Returns the rectangular section that includes the pixels that would be
