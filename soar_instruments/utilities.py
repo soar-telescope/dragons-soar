@@ -1,9 +1,9 @@
-__all__ = ['Section']
-
 
 from collections import namedtuple
 
 Section = namedtuple('Section', 'x1 x2 y1 y2')
+
+__all__ = ['Section']
 
 
 def section_to_tuple(section):
@@ -51,4 +51,5 @@ def section_str_to_int_list(section):
 
     # Return the tuple in the form (x1 - 1, x2, y1 - 1, y2)
     return x1, x2, y1, y2
+
 
