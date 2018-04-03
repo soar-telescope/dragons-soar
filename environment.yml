@@ -1,4 +1,4 @@
-name: dragons
+name: dragonsenv
 channels:
   - astroconda
 dependencies:
@@ -7,6 +7,5 @@ dependencies:
   - dateutil
   - pip
   - pip:
-    - future
     - coveralls
     - "--editable=git+git://github.com/GeminiDRSoftware/DRAGONS@master#egg=DRAGONS"
