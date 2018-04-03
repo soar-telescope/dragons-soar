@@ -26,6 +26,8 @@ install:
 
 # Create astroconda virtual environment
 - conda env create -q python=$TRAVIS_PYTHON_VERSION -f environment.yml
+- echo $TRAVIS_PYTHON_VERSION
+- python --version
 - source activate dragons
 - python --version
 
