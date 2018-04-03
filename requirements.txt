@@ -1,2 +1,0 @@
-future
--e git+git://github.com/GeminiDRSoftware/DRAGONS@master#egg=DRAGONS
