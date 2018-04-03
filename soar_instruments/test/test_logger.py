@@ -11,12 +11,15 @@ class TestLogFormat(unittest.TestCase):
         self.held_stdout, sys.stdout = sys.stdout, io.StringIO()
         self.held_stderr, sys.stderr = sys.stderr, io.StringIO()
 
+    def test_instance(self):
+        self.assertIsInstance(self, unittest.TestCase)
+
     def test_debug(self):
         logger = get_logger('TestLogApp')
         logger.debug("debug message")
         log_message = sys.stderr.getvalue().strip()
 
-        self.assertRegex(log_message, r'(\[D\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
+        self.assertRegexpMatches(log_message, r'(\[D\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
 
     def test_info(self):
         logger = get_logger('TestLogApp')

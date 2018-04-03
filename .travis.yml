@@ -1,6 +1,5 @@
 language: python
 python:
-# - '2.7'
 - '3.5'
 - '3.6'
 
@@ -28,6 +27,7 @@ install:
 # Create astroconda virtual environment
 - conda env create -q python=$TRAVIS_PYTHON_VERSION -f environment.yml
 - source activate dragons
+- python --version
 
 # Install me
 - python setup.py test
