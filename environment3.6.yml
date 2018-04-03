@@ -2,9 +2,8 @@ name: dragons
 channels:
   - astroconda
 dependencies:
+  - python=3.6
   - astropy
-  - configparser
-  - dateutil
   - pip
   - pip:
     - future
