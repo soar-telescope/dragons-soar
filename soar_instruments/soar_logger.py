@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
 import logging
 
 __all__ = ['COLORS', 'get_logger']
@@ -17,7 +20,7 @@ COLORS = {
 }
 
 
-def get_logger(logger_name, use_colors=True):
+def get_logger(logger_name, use_color=True):
     """
     Return a logger with the "logger_name".
 
@@ -31,53 +34,41 @@ def get_logger(logger_name, use_colors=True):
     message_format = " [%(levelname).1s %(asctime)s %(name)s] %(message)s"
     date_format = "%Y-%m-%d %H:%M:%S"
 
-    formatter = SoarLogFormatter(message_format, datefmt=date_format, use_colours=use_colors)
-
-    handler = logging.StreamHandler()
-    handler.setFormatter(formatter)
-
     _logger = logging.getLogger(logger_name)
-    _logger.addHandler(handler)
+
+    if len(_logger.handlers) == 0:
+
+        formatter = SOARLogFormatter(message_format, datefmt=date_format, use_colours=use_color)
+
+        handler = logging.StreamHandler()
+        handler.setFormatter(formatter)
+
+        _logger.addHandler(handler)
+        _logger.setLevel(logging.DEBUG)
 
     return _logger
 
 
-class SoarLogFormatter(logging.Formatter):
-    """
-    A customized formatter to be used at Dragons Soar.
+class SOARLogFormatter(logging.Formatter):
 
-    Attributes:
-        char_left (str): the character used to set where the coloured string
-            starts (default = "[").
-        char_right (str): the character used to set where the coloured string
-            ends (default = "]")
-    Args:
-        fmt (str, optional): a string containing the logging format
-            (See `Logging facility for Python`_).
-        datefmt (str, optional): a string containing the date format for
-            logging (See `Logging facility for Python`_).
-        use_colours (bool, optional): set colored output (default: True).
+    def __init__(self, fmt=" [%(levelname).1s %(asctime)s %(name)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S",
+                 use_colours=True):
 
-    ..  _Logging facility for Python:
-        https://docs.python.org/3/library/logging.html
-
-    """
-
-    def __init__(self, fmt="%(levelno)s: %(msg)s", datefmt=None, use_colours=True):
         logging.Formatter.__init__(self, fmt, datefmt=datefmt)
         self.use_colours = use_colours
-        self.char_left = "["
-        self.char_right = "]"
 
-    def color_format(self, message, levelname):
+    @staticmethod
+    def color_format(message, levelname, left_char="[", right_char="]"):
+
         colour = COLOR_SEQ % (30 + COLORS[levelname])
 
-        message = message.replace(self.char_left, "{:s} {:s}".format(colour, self.char_left))
-        message = message.replace(self.char_right, "{:s} {:s}".format(self.char_right, RESET_SEQ))
+        message = message.replace(left_char, "{:s} {:s}".format(colour, left_char))
+        message = message.replace(right_char, "{:s} {:s}".format(right_char, RESET_SEQ))
 
         return message
 
     def format(self, record):
+
         # Call the original formatter class to do the grunt work
         result = logging.Formatter.format(self, record)
 
@@ -85,3 +76,15 @@ class SoarLogFormatter(logging.Formatter):
             result = self.color_format(result, record.levelname)
 
         return result
+
+
+if __name__ == "__main__":
+
+    logger = get_logger('TestColor')
+    logger.setLevel(logging.DEBUG)
+
+    logger.debug("debug message")
+    logger.info("info message")
+    logger.warning("warning message")
+    logger.error("error message")
+    logger.critical("critical message")

@@ -1,61 +1,93 @@
+
+import logging
 import io
 import unittest
-import sys
 
-from soar_instruments.soar_logger import get_logger
+from soar_instruments.soar_logger import get_logger, SOARLogFormatter
 
 
 class TestLogFormat(unittest.TestCase):
 
+    logger_name = 'TestLogFormatApp'
+    expected_log_format = r'(\[[D,I,W,E,C]\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)'
+
     def setUp(self):
-        self.held_stdout, sys.stdout = sys.stdout, io.StringIO()
-        self.held_stderr, sys.stderr = sys.stderr, io.StringIO()
 
-    def test_instance(self):
-        self.assertIsInstance(self, unittest.TestCase)
+        self.formatter = SOARLogFormatter()
+        self.stream = io.StringIO()
+        self.handler = logging.StreamHandler(self.stream)
+        self.logger = get_logger(self.logger_name)
 
-    def test_debug(self):
-        logger = get_logger('TestLogApp')
-        logger.debug("debug message")
-        log_message = sys.stderr.getvalue().strip()
+        for handler in self.logger.handlers:
+            self.logger.removeHandler(handler)
 
-        self.assertRegexpMatches(log_message, r'(\[D\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
+        self.handler.setFormatter(self.formatter)
 
-    def test_info(self):
-        logger = get_logger('TestLogApp')
-        logger.info("info message")
-        log_message = sys.stderr.getvalue().strip()
-
-        self.assertRegex(log_message, r'(\[I\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
-
-    def test_warning(self):
-        logger = get_logger('TestLogApp')
-        logger.warning("warning message")
-        log_message = sys.stderr.getvalue().strip()
-
-        self.assertRegex(log_message, r'(\[W\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
-
-    def test_error(self):
-        logger = get_logger('TestLogApp')
-        logger.error("error message")
-        log_message = sys.stderr.getvalue().strip()
-
-        self.assertRegex(log_message, r'(\[E\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
-
-    def test_critical(self):
-        logger = get_logger('TestLogApp')
-        logger.critical("critical message")
-        log_message = sys.stderr.getvalue().strip()
-
-        self.assertRegex(log_message, r'(\[C\s\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\s\w*\]\s)')
-
-    def test_color(self):
-        logger = get_logger('TestLogApp')
-        logger.critical("critical message")
-        log_message = sys.stderr.getvalue().strip()
-
-        self.assertRegex(log_message, '(\033\[0m)')
+        self.logger.addHandler(self.handler)
 
     def tearDown(self):
-        sys.stdout = self.held_stdout
-        sys.stderr = self.held_stderr
+        pass
+
+    def assertLogFormat(self, message, level_name):
+
+        with self.assertLogs(logger=self.logger_name, level=level_name) as cm:
+
+            if not isinstance(level_name, str):
+               level_name = logging.getLevelName(level_name)
+
+            if level_name.upper() == 'DEBUG':
+                self.logger.debug(message)
+            elif level_name.upper() == 'INFO':
+                self.logger.info(message)
+            elif level_name.upper() == 'WARNING':
+                self.logger.warning(message)
+            elif level_name.upper() == 'ERROR':
+                self.logger.error(message)
+            elif level_name.upper() == 'CRITICAL':
+                self.logger.critical(message)
+            else:
+                raise ValueError("level_name = {:} is not valid.".format(level_name))
+
+            self.handler.flush()
+
+            log_message = self.handler.format(cm.records[-1]).strip()
+            self.assertRegex(log_message, self.expected_log_format)
+
+    def test_number_of_handlers(self):
+        logger = get_logger(self.logger_name)
+        self.assertEqual(1, len(logger.handlers))
+
+    def test_debug(self):
+        message = 'test debug message'
+        self.assertLogFormat(message, 'DEBUG')
+        self.assertLogFormat(message, logging.DEBUG)
+
+    def test_info(self):
+        message = 'test info message'
+        self.assertLogFormat(message, 'INFO')
+        self.assertLogFormat(message, logging.INFO)
+
+    def test_warning(self):
+        message = 'test warning message'
+        self.assertLogFormat(message, 'WARNING')
+        self.assertLogFormat(message, logging.WARNING)
+
+    def test_error(self):
+        message = 'test error message'
+        self.assertLogFormat(message, 'ERROR')
+        self.assertLogFormat(message, logging.ERROR)
+
+    def test_critical(self):
+        message = 'test critical message'
+        self.assertLogFormat(message, 'CRITICAL')
+        self.assertLogFormat(message, logging.CRITICAL)
+
+    def test_color(self):
+        message = 'test color message'
+        with self.assertLogs(logger=self.logger_name) as cm:
+
+            self.logger.warning(message)
+            self.handler.flush()
+
+            log_message = self.handler.format(cm.records[-1]).strip()
+            self.assertRegex(log_message, r'(\x1b)')
