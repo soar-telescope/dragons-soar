@@ -91,3 +91,25 @@ class TestLogFormat(unittest.TestCase):
 
             log_message = self.handler.format(cm.records[-1]).strip()
             self.assertRegex(log_message, r'(\x1b)')
+
+    def test_not_color(self):
+
+        formatter = SOARLogFormatter(use_colours=False)
+        stream = io.StringIO()
+        handler = logging.StreamHandler(stream)
+        logger = get_logger('TestNoColor')
+
+        for handler in logger.handlers:
+            logger.removeHandler(handler)
+
+        handler.setFormatter(formatter)
+
+        logger.addHandler(handler)
+
+        message = 'test color message'
+        with self.assertLogs(logger='TestNoColor') as cm:
+            logger.warning(message)
+            handler.flush()
+
+            log_message = handler.format(cm.records[-1]).strip()
+            self.assertNotRegex(log_message, r'(\x1b)')
