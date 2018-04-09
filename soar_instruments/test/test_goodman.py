@@ -1,9 +1,22 @@
 
+import glob
 import os
 import unittest
 
 import soar_instruments
 import astrodata
+
+
+class TestAllIo(unittest.TestCase):
+
+    path = "soar_instruments/test/data/"
+
+    def test_io(self):
+
+        list_of_test_files = glob.glob(os.path.join(self.path, '*.fits'))
+
+        for _file in list_of_test_files:
+            ad = astrodata.open(_file)
 
 
 class TestBlueIo(unittest.TestCase):
