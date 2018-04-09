@@ -7,19 +7,7 @@ import soar_instruments
 import astrodata
 
 
-class TestAllIo(unittest.TestCase):
-
-    path = "soar_instruments/test/data/"
-
-    def test_io(self):
-
-        list_of_test_files = glob.glob(os.path.join(self.path, '*.fits'))
-
-        for _file in list_of_test_files:
-            ad = astrodata.open(_file)
-
-
-class TestBlueIo(unittest.TestCase):
+class TestGoodmanIo(unittest.TestCase):
 
     path = "soar_instruments/test/data/"
 
@@ -34,6 +22,7 @@ class TestBlueIo(unittest.TestCase):
         ad = astrodata.open(sample)
 
         self.assertEqual(ad.instrument(), 'goodman')
+        self.assertEqual(ad.data_section(pretty=True)[0], ad.phu[ad._keyword_for('data_section')])
 
         # Check if the tags are set correctly
         for t in tags:
@@ -44,6 +33,20 @@ class TestBlueIo(unittest.TestCase):
 
         for t in ad.tags:
             self.assertIn(t, tags)
+
+    def test_io(self):
+
+        list_of_test_files = glob.glob(os.path.join(self.path, '*.fits'))
+
+        for _file in list_of_test_files:
+
+            ad = astrodata.open(_file)
+
+            if ad.instrument() == 'goodman':
+                self.assertEqual(ad.data_section(pretty=True)[0], ad.phu[ad._keyword_for('data_section')])
+
+
+class TestBlueIo(TestGoodmanIo):
 
     def test_acq(self):
 
@@ -81,23 +84,7 @@ class TestBlueIo(unittest.TestCase):
         self.tag_checker(filename, expected_tags)
 
 
-class TestRedIo(unittest.TestCase):
-
-    path = "soar_instruments/test/data/"
-
-    def tag_checker(self, filename, tags):
-
-        sample = os.path.join(self.path, filename)
-
-        # Check if file exists
-        self.assertTrue(os.path.exists(sample))
-
-        # Try to open in astrodata
-        ad = astrodata.open(sample)
-
-        # Check if the tags are set correctly
-        for t in tags:
-            self.assertIn(t, ad.tags)
+class TestRedIo(TestGoodmanIo):
 
     def test_acq(self):
 
