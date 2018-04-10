@@ -82,6 +82,10 @@ class TestLogFormat(unittest.TestCase):
         self.assertLogFormat(message, 'CRITICAL')
         self.assertLogFormat(message, logging.CRITICAL)
 
+    def test_the_test(self):
+        message = 'failing test message'
+        self.assertRaises(ValueError, self.assertLogFormat, message, 'FAIL_ME')
+
     def test_color(self):
         message = 'test color message'
         with self.assertLogs(logger=self.logger_name) as cm:
