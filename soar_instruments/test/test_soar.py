@@ -26,7 +26,6 @@ class Test_IO(unittest.TestCase):
         self.assertNotIn('SAM', ad.tags)
         self.assertNotIn('Goodman', ad.tags)
 
-    @unittest.skip
     def test_dummy_class(self):
 
         empty_fits = os.path.join(self.path, "dummy_file.fits")

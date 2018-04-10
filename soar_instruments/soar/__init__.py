@@ -1,6 +1,8 @@
-__all__ = ['AstroDataSOAR']
+__all__ = ['AstroDataSOAR', 'AstroDataDummy']
 
+
+from .adclass import AstroDataSOAR, AstroDataDummy
 from astrodata import factory
-from .adclass import AstroDataSOAR
 
 factory.addClass(AstroDataSOAR)
+factory.addClass(AstroDataDummy)
