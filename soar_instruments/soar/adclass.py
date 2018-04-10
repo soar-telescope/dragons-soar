@@ -50,6 +50,8 @@ class AstroDataSOAR(astrodata.AstroDataFits):
 
 class AstroDataDummy(AstroDataSOAR):
 
+    __keyword_dict = dict(data_section='TRIMSEC')
+
     @staticmethod
     def _matches_data(source):
         if 'INSTRUME' in source[0].header:

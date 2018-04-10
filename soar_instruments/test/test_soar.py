@@ -37,3 +37,6 @@ class Test_IO(unittest.TestCase):
         ad = astrodata.open(empty_fits)
 
         self.assertIn('DUMMY', ad.tags)
+        self.assertEqual('DUMMY', ad.instrument())
+        self.assertEqual([None], ad.data_section())
+
